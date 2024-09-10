@@ -4,18 +4,19 @@ import com.lucidchart.relate.{RowParser, SqlRow}
 import upickle.default._
 
 case class Product(
-                    id: Int,
+                    id: Int = 0,
                     name: String,
                     price: Float,
                     imageUrl: String,
                     category: Int,
                     artist: Int,
-                    stock: Int
+                    stock: Int,
+                    status: String
                   )
 
 object Product{
 
-  implicit val ownerRw: ReadWriter[Product] = macroRW[Product]
+  implicit val productRw: ReadWriter[Product] = macroRW
 
   implicit val parser: RowParser[Product] = (row: SqlRow) => {
     Product(
@@ -25,7 +26,8 @@ object Product{
       row.string("imageUrl"),
       row.int("category"),
       row.int("artist"),
-      row.int("stock")
+      row.int("stock"),
+      row.string("status")
     )
   }
 

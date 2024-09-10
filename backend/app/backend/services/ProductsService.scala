@@ -7,7 +7,7 @@ import play.api.db.Database
 
 import backend.models.Product
 
-class ProductsService(dbApi: play.api.db.DBApi){
+class ProductsService(dbApi: play.api.db.DBApi) {
   private val database: Database = dbApi.database("default")
 
   implicit val connection: Connection = database.getConnection(false)
@@ -26,5 +26,35 @@ class ProductsService(dbApi: play.api.db.DBApi){
          WHERE b.name = $category
          LIMIT $take OFFSET $skip
        """.asList[Product]
+  }
+
+  def create(product: Product): Long = {
+    val productTuple = (product.name, product.price, product.imageUrl, product.category, product.artist, product.stock)
+    val id =
+      sql"""INSERT INTO product(name, price, imageUrl, category, artist, stock)
+            VALUES ($productTuple)
+         """.executeInsertLong()
+    sql"COMMIT".execute()
+    id
+  }
+
+  def update(id: Int, product: Product): Unit = {
+    val name = product.name
+    val price = product.price
+    val imageUrl = product.imageUrl
+    val category = product.category
+    val artist = product.artist
+    val stock = product.stock
+    val status = product.status
+    sql"""UPDATE product SET name = $name, price = $price, imageUrl = $imageUrl, category = $category,
+                            artist = $artist, stock = $stock, status = $status
+          WHERE id = $id
+       """.executeUpdate()
+    sql"COMMIT".execute()
+  }
+
+  def delete(id: Int): Unit = {
+    sql"""DELETE FROM product WHERE id = $id""".execute()
+    sql"""COMMIT""".execute()
   }
 }

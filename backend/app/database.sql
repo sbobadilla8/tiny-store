@@ -17,6 +17,7 @@ CREATE TABLE product (
     category BIGINT UNSIGNED,
     artist   BIGINT UNSIGNED,
     stock    INTEGER,
+    status   ENUM('ACTIVE', 'INACTIVE')
     UNIQUE (name, artist),
     FOREIGN KEY (category) REFERENCES category (id),
     FOREIGN KEY (artist) REFERENCES artist (id)
@@ -54,7 +55,8 @@ VALUES ('Metal'),
 
 INSERT INTO artist(name, profilePhoto)
 VALUES ('System of a Down', 'https://i.iheart.com/v3/catalog/artist/89458?ops=fit(480%2C480)%2Crun(%22circle%22)'),
-       ('Mägo de Oz', 'https://portal.andina.pe/EDPfotografia2/Thumbnail/2010/09/14/000135917W.jpg');
+       ('Mägo de Oz', 'https://portal.andina.pe/EDPfotografia2/Thumbnail/2010/09/14/000135917W.jpg'),
+       ('Lindemann', 'https://music.metason.net/image?fn=A-2494458.jpeg&sc=_63');
 
 INSERT INTO product(name, price, imageUrl, category, artist, stock)
 VALUES ('Toxicity', 19.99, 'https://upload.wikimedia.org/wikipedia/en/6/64/SystemofaDownToxicityalbumcover.jpg', 1, 1,

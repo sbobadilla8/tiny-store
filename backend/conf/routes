@@ -7,3 +7,9 @@
 GET     /products                           backend.controllers.ProductsController.getAll
 GET     /products/:id                       backend.controllers.ProductsController.getById(id: Int)
 GET     /products/category/:category        backend.controllers.ProductsController.getByCategory(category: String)
+
+POST    /products                           backend.controllers.ProductsController.create
+
+PUT     /products/:id                       backend.controllers.ProductsController.update(id: Int)
+
+DELETE  /products/:id                       backend.controllers.ProductsController.delete(id: Int)
