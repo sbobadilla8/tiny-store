@@ -1,20 +1,22 @@
-lazy val root = (project in file("."))
-  .enablePlugins(PlayScala)
-  //.enablePlugins(PlayNettyServer).disablePlugins(PlayPekkoHttpServer) // uncomment to use the Netty backend
-  .settings(
-    name := """play-scala-starter-example""",
-    version := "1.0-SNAPSHOT",
-    crossScalaVersions := Seq("2.13.14", "3.3.3"),
-    scalaVersion := crossScalaVersions.value.head,
-    libraryDependencies ++= Seq(
-      guice,
-      "com.h2database" % "h2" % "2.3.232",
-      "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.1" % Test,
-    ),
-    scalacOptions ++= Seq(
-      "-feature",
-      "-Werror"
-    ),
-    // Needed for ssl-config to create self signed certificated under Java 17
-    Test / javaOptions ++= List("--add-exports=java.base/sun.security.x509=ALL-UNNAMED"),
-  )
+name := """backend"""
+
+version := "1.0-SNAPSHOT"
+
+lazy val root = (project in file(".")).enablePlugins(PlayScala)
+
+scalaVersion := "2.13.14"
+
+//libraryDependencies += guice
+//libraryDependencies += "com.h2database" % "h2" % "2.3.232"
+libraryDependencies ++= Seq(
+  jdbc
+)
+libraryDependencies += "com.lucidchart" %% "relate" % "3.2.0"
+libraryDependencies += "com.mysql" % "mysql-connector-j" % "9.0.0"
+libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.1" % Test
+libraryDependencies += "com.lihaoyi" %% "upickle" % "3.3.1"
+// Adds additional packages into Twirl
+//TwirlKeys.templateImports += "com.example.controllers._"
+
+// Adds additional packages into conf/routes
+// play.sbt.routes.RoutesKeys.routesImport += "com.example.binders._"
